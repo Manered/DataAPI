@@ -3,7 +3,6 @@ package dev.manere.dataapi.impl;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dev.manere.dataapi.api.DataEditor;
 import dev.manere.dataapi.api.DataResourceBase;
-import dev.manere.dataapi.util.FileResources;
 import dev.manere.dataapi.util.NodePath;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
