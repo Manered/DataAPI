@@ -8,28 +8,29 @@ import java.io.File;
 /**
  * The DataResourceBase interface provides basic methods for managing data resources.
  *
- * @param <T> The type of the data resource.
+ * @param <D> The type of the data resource.
  */
-public interface DataResourceBase<T> {
+public interface DataResourceBase<D> {
     /**
      * Saves changes made to the data resource.
      *
      * @return The updated data resource instance.
      */
     @CanIgnoreReturnValue
-    @NotNull T save();
+    @NotNull D save();
 
     /**
      * Retrieves a DataEditor instance for editing the content of the data resource.
      *
      * @return A DataEditor instance.
      */
-    @NotNull DataEditor<T> editor();
+    @NotNull DataEditor<D> editor();
 
     /**
      * Reloads the content of the data resource.
      */
-    void reload();
+    @CanIgnoreReturnValue
+    @NotNull D reload();
 
     /**
      * Retrieves the File associated with the data resource.

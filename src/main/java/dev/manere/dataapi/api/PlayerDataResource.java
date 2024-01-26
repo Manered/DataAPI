@@ -26,8 +26,9 @@ public interface PlayerDataResource extends DataResourceBase<PlayerDataResource>
     /**
      * {@inheritDoc}
      */
+    @CanIgnoreReturnValue
     @Override
-    void reload();
+    @NotNull PlayerDataResource reload();
 
     /**
      * {@inheritDoc}

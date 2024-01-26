@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * The DataAPIBuilder interface provides methods for building and configuring DataAPI instances.
- * It allows setting the source, folder, and root for the DataAPI instance before registration.
+ * It allows setting the src, folder, and root for the DataAPI instance before registration.
  */
 public interface DataAPIBuilder {
     /**
@@ -20,9 +20,9 @@ public interface DataAPIBuilder {
     }
 
     /**
-     * Sets the JavaPlugin source for the DataAPI instance.
+     * Sets the JavaPlugin src for the DataAPI instance.
      *
-     * @param source The JavaPlugin source to be set.
+     * @param source The JavaPlugin src to be set.
      * @return The DataAPIBuilder instance for method chaining.
      */
     @CanIgnoreReturnValue

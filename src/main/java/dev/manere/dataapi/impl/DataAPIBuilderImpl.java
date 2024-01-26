@@ -48,11 +48,8 @@ public class DataAPIBuilderImpl implements DataAPIBuilder {
      */
     @Override
     public @NotNull DataAPI register() {
-        final DataAPI api = DataAPI.init(source, folderName);
-
-        api.rootChar(root);
+        final DataAPI api = DataAPI.init(source, folderName, root);
         api.register();
-
         return api;
     }
 }

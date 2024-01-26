@@ -89,7 +89,7 @@ public class NodePath {
             builder.append(parent).append(".");
         }
 
-        return builder.toString();
+        return builder.toString().replaceAll("~.", "");
     }
 
     /**

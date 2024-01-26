@@ -58,9 +58,12 @@ public class PlayerDataResourceImpl implements PlayerDataResource {
     /**
      * {@inheritDoc}
      */
+    @CanIgnoreReturnValue
+    @NotNull
     @Override
-    public void reload() {
+    public PlayerDataResource reload() {
         CompletableFuture.runAsync(() -> YamlConfiguration.loadConfiguration(file()));
+        return this;
     }
 
     /**

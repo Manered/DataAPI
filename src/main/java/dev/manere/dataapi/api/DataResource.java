@@ -25,8 +25,9 @@ public interface DataResource extends DataResourceBase<DataResource> {
     /**
      * {@inheritDoc}
      */
+    @CanIgnoreReturnValue
     @Override
-    void reload();
+    @NotNull DataResource reload();
 
     /**
      * {@inheritDoc}

@@ -15,9 +15,9 @@ import java.util.UUID;
  */
 public interface DataAPI {
     /**
-     * Initializes the DataAPI with the provided JavaPlugin as the data source.
+     * Initializes the DataAPI with the provided JavaPlugin as the data src.
      *
-     * @param source The JavaPlugin to be used as the data source.
+     * @param source The JavaPlugin to be used as the data src.
      * @return The initialized DataAPI instance.
      */
     @CanIgnoreReturnValue
@@ -34,7 +34,7 @@ public interface DataAPI {
     /**
      * Initializes the DataAPI with the provided JavaPlugin and folder name.
      *
-     * @param source      The JavaPlugin to be used as the data source.
+     * @param source      The JavaPlugin to be used as the data src.
      * @param folderName  The name of the folder to store data.
      * @return The initialized DataAPI instance.
      */
@@ -60,9 +60,27 @@ public interface DataAPI {
     }
 
     /**
-     * Sets the JavaPlugin source for the DataAPI instance.
+     * Initializes the DataAPI with the provided JavaPlugin, folder name and root character.
      *
-     * @param source The JavaPlugin source to be set.
+     * @param source      The JavaPlugin to be used as the data src.
+     * @param folderName  The name of the folder to store data.
+     * @return The initialized DataAPI instance.
+     */
+    @CanIgnoreReturnValue
+    static @NotNull DataAPI init(final @NotNull JavaPlugin source, final @NotNull String folderName, final @NotNull String rootChar) {
+        final DataAPIImpl handler = new DataAPIImpl();
+
+        handler.source(source);
+        handler.folder(folderName);
+        handler.register();
+
+        return handler;
+    }
+
+    /**
+     * Sets the JavaPlugin src for the DataAPI instance.
+     *
+     * @param source The JavaPlugin src to be set.
      */
     void source(final @NotNull JavaPlugin source);
 
@@ -130,9 +148,9 @@ public interface DataAPI {
     @NotNull PlayerDataResource player(final @NotNull UUID uuid);
 
     /**
-     * Retrieves the JavaPlugin source for the DataAPI instance.
+     * Retrieves the JavaPlugin src for the DataAPI instance.
      *
-     * @return The JavaPlugin source.
+     * @return The JavaPlugin src.
      */
     @NotNull JavaPlugin source();
 

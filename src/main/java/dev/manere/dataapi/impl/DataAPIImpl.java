@@ -4,10 +4,14 @@ import dev.manere.dataapi.api.DataAPI;
 import dev.manere.dataapi.api.DataResource;
 import dev.manere.dataapi.api.PlayerDataResource;
 import dev.manere.dataapi.util.FileResources;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 public class DataAPIImpl implements DataAPI {
@@ -108,7 +112,7 @@ public class DataAPIImpl implements DataAPI {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void register() {
-        if (source == null) throw new NullPointerException("source cannot be null");
+        if (source == null) throw new NullPointerException("src cannot be null");
         if (folderName == null) folder(source.getName());
         if (root == null) rootChar('~');
 
@@ -118,6 +122,45 @@ public class DataAPIImpl implements DataAPI {
 
         if (!dataFolder.exists()) dataFolder.mkdirs();
         if (!registeredFolder.exists()) registeredFolder.mkdirs();
+
+        final File txtFile = FileResources.file(dataFolder, "/read_me_if_you_want_to.yml");
+        if (txtFile.exists()) return;
+        try {
+            txtFile.createNewFile();
+        } catch (IOException ignored) {}
+
+        final FileConfiguration configuration = YamlConfiguration.loadConfiguration(txtFile);
+        configuration.options().setHeader(List.of(
+                "This file is automatically created by an API - DataAPI.",
+                "==============================",
+                "If you're not into making plugins or are new to them,",
+                "here's what an API is and what APIs are used for.",
+                "==============================",
+                "Suppose you’re building a calculator app,",
+                "but instead of actually writing the code to do the calculations,",
+                "you’ll use a library (or API) that’s efficient and well tested.",
+                "==============================",
+                "The code that performs addition may look something like this:",
+                "def to_add_numbers(x, y):",
+                "  print(library_or_api.add_together(x + y))",
+                "==============================",
+                "As for the explanation:",
+                "An API (Application Programming Interface) is",
+                "the point where two pieces of software communicate with each other.",
+                "==============================",
+                "Putting all this together, you should find out that DataAPI is an API",
+                "that helps with managing/storing/caching/retrieving information/data",
+                "within a file system."
+        ));
+
+        configuration.setComments("source_code_github", List.of("The src code of this API"));
+        configuration.set("source_code_github", "https://github.com/Manered/DataAPI");
+
+        try {
+            configuration.save(txtFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

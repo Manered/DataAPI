@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class DataEditorImpl<T extends DataResourceBase<T>> implements DataEditor<T> {
-    private final T resource;
-
+public record DataEditorImpl<T extends DataResourceBase<T>>(T resource) implements DataEditor<T> {
     public DataEditorImpl(final @NotNull T resource) {
         this.resource = resource;
 
@@ -41,6 +39,31 @@ public class DataEditorImpl<T extends DataResourceBase<T>> implements DataEditor
         }
 
         return YamlConfiguration.loadConfiguration(file);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void comment(final @NotNull NodePath parent, final @NotNull String name, final @NotNull Collection<String> comments) {
+        final String path = parent.convert() + name;
+        config().setComments(path, new ArrayList<>(comments));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void header(final @NotNull Collection<String> header) {
+        config().options().setHeader(new ArrayList<>(header));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void footer(final @NotNull Collection<String> footer) {
+        config().options().setFooter(new ArrayList<>(footer));
     }
 
     /**
@@ -81,9 +104,35 @@ public class DataEditorImpl<T extends DataResourceBase<T>> implements DataEditor
      * {@inheritDoc}
      */
     @Override
-    public @Nullable <E> List<E> retrieveList(final @NotNull NodePath parent, final @NotNull String name, final @NotNull Class<E> type) {
+    public <E> @NotNull List<E> retrieveList(final @NotNull NodePath parent, final @NotNull String name, final @NotNull Class<E> type) {
+        final Object rawNullable = retrieve(parent, name);
+        if (rawNullable == null) return new ArrayList<>();
         //noinspection unchecked
-        return (List<E>) retrieve(parent, name);
+        return (List<E>) rawNullable;
+    }
+
+    @Override
+    public @NotNull Map<String, Object> pairs() {
+        final Map<String, Object> pairs = new HashMap<>();
+
+        for (final String key : keys()) {
+            final Object value = retrieve(key);
+            pairs.put(key, value);
+        }
+
+        return pairs;
+    }
+
+    @Override
+    public @NotNull <V> Map<String, V> pairs(@NotNull Class<V> requiredType) {
+        final Map<String, V> pairs = new HashMap<>();
+
+        for (final String key : keys()) {
+            final V value = retrieve(key, requiredType);
+            if (value != null && requiredType.isInstance(retrieve(key))) pairs.put(key, value);
+        }
+
+        return pairs;
     }
 
     /**

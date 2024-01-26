@@ -1,8 +1,8 @@
 package dev.manere.dataapi.impl;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dev.manere.dataapi.api.DataEditor;
 import dev.manere.dataapi.api.DataResource;
-import dev.manere.dataapi.api.PlayerDataResource;
 import dev.manere.dataapi.util.FileResources;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -53,9 +53,12 @@ public class DataResourceImpl implements DataResource {
     /**
      * {@inheritDoc}
      */
+    @CanIgnoreReturnValue
+    @NotNull
     @Override
-    public void reload() {
+    public DataResource reload() {
         YamlConfiguration.loadConfiguration(file());
+        return this;
     }
 
     /**
